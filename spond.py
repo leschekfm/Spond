@@ -42,6 +42,10 @@ class Spond():
             for member in group['members']:
                 if member['id'] == uid:
                     return member
+                p = member.get('profile')
+                if p:
+                    if p['id'] == uid:
+                        return member
                 if 'guardians' in member:
                     for guardian in member['guardians']:
                         if guardian['id'] == uid:
@@ -60,7 +64,16 @@ class Spond():
             await self.login()
         if not end_time:
             end_time = datetime.now() - timedelta(days=14)
-        url = self.apiurl + "sponds/?max=100&minEndTimestamp={}&order=asc&scheduled=true".format(end_time.strftime("%Y-%m-%dT00:00:00.000Z"))
+            url = self.apiurl + "sponds/?max=100&minEndTimestamp={}&order=asc&scheduled=true".format(end_time.strftime("%Y-%m-%dT00:00:00.000Z"))
+            async with self.clientsession.get(url) as r:
+                self.events = await r.json()
+                return self.events
+
+    async def getEventsBetween(self, start_time, end_time):
+        if not self.cookie:
+            await self.login()
+
+        url = self.apiurl + "sponds/?max=100&minEndTimestamp={}&maxEndTimestamp={}&order=asc&scheduled=true".format(start_time, end_time)
         async with self.clientsession.get(url) as r:
             self.events = await r.json()
             return self.events

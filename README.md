@@ -14,3 +14,5 @@ Rename `config.py.sample` to config.py and set your Spond username and password 
 Run `pipenv run python3 ical.py` which will generate an ics-file (`exports/spond.ics`) of the upcoming events in Spond (which can then be imported into any calendar, or even put up on a web page to be subscribed to by different calendar apps.
 
 Run `pipenv run python3 groups.py` which will simply dump all your groups and group members to a JSON file (`exports/<group name>.json`)
+
+Run `pipenv run python3 attendance.py` to create a CSV file containing a list of all events with their host's attendance (`exports/attendance.csv`)
