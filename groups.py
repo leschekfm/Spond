@@ -1,3 +1,4 @@
+import os
 import asyncio
 import json
 import spond
@@ -13,7 +14,9 @@ async def main():
         keepcharacters = (' ','.','_')
         filename = "".join(c for c in name if c.isalnum() or c in keepcharacters).rstrip() + ".json"
         print(filename)
-        with open(filename, 'w') as out_file:
+        if not os.path.exists('./exports'):
+            os.makedirs('./exports')
+        with open(os.path.join("./exports", filename), 'w') as out_file:
             out_file.write(data)
         
     await s.clientsession.close()
