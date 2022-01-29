@@ -1,12 +1,19 @@
+from datetime import date
 import os
+import argparse
 import asyncio
 import csv
 import spond
 from config import username, password
 
+parser = argparse.ArgumentParser()
+parser.add_argument("start", help="Start date to query for (format YYYY-MM-DD)", type=date.fromisoformat)
+parser.add_argument("end", help="End date to query for (format YYYY-MM-DD)", type=date.fromisoformat)
+args = parser.parse_args()
+
 async def main():
     s = spond.Spond(username=username, password=password)
-    events = await s.getEventsBetween("2021-01-01T00:00:00.000Z", "2022-01-01T01:00:00.000Z")
+    events = await s.getEventsBetween(args.start, args.end)
     
     if not os.path.exists('./exports'):
             os.makedirs('./exports')
