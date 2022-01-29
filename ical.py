@@ -15,6 +15,7 @@ async def main():
         e = Event()
         e.uid = event['id']
         e.name = event['heading']
+        if 'description' in event:
             e.description = event['description']
         e.begin = event['startTimestamp']
         e.end = event['endTimestamp']
